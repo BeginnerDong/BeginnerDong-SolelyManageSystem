@@ -324,6 +324,7 @@ export default {
       this.filterButtonAuth();
     },
     Pagination (v) {
+      console.log('Pagination',v)
       this.paginate = v
     },
     Search (v) {

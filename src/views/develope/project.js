@@ -724,6 +724,25 @@ export default {
           text: '创建时间desc',
           value: 3
         }],
+        originOptions:[{
+          text: '58',
+          value: 1
+        }, {
+          text: '百度',
+          value: 2
+        }, {
+          text: '猪八戒',
+          value: 3
+        }, {
+          text: '转介绍',
+          value: 4
+        }, {
+          text: '其他',
+          value: 5
+        }, {
+          text: '58财务',
+          value: 6
+        }],
         userOptions:[],
         salesOptions:[],
 
@@ -952,6 +971,14 @@ export default {
           middleKey: "project_no",
           searchItem: {status: 1},
           tableName: "Payment",
+        },
+        Client:{
+          condition: "=",
+          key: "id",
+          middleKey: "client_no",
+          info: ["origin", "plan"],
+          searchItem: {status: 1},
+          tableName: "Client"
         }
       };
 

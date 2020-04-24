@@ -234,7 +234,7 @@ var gbs = {
         {
           id:'43',
           name:'收支统计',
-          router:'/home/ayStatistic',
+          router:'/home/payStatistic',
           icon: 'reorder',
           isShow:true,
           button:['编辑','删除选中','添加'],

@@ -42,16 +42,20 @@
           <div style="width:23%;height: auto;display: inline-block;vertical-align: top;padding: 8px 0;">
             <span style="font-weight: bold;">项目信息</span>
             <br>
-            <div>
+            <div style="text-align: left;">
               <div>
                 <span style="font-weight: bold;">客户电话：</span>
                 {{expand.data.phone}}
+                <br/>
+                <span style="font-weight: bold;">项目来源：</span>
+                {{optionData.originOptions[expand.data.Client.origin]}}--{{expand.data.Client.plan}}
+                <br/>
                 <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;cms耗时：</span>
                 {{(expand.data.cms_time/86400000).toFixed(2)}}--天
               </div>
               <div>
                 <span style="font-weight: bold;">功能签订：</span>
-                {{self.$$formatDate( new Date(parseInt(expand.data.sign_time)) ,'yyyy-MM-dd')}}
+                {{self.$$formatDate( new Date(parseInt(expand.data.sign_time)) ,'yyyy-MM-dd')}}<br/>
                 <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;项目有效期：</span>
                 {{self.$$formatDate( new Date(parseInt(expand.data.vaild_time)) ,'yyyy-MM-dd')}}
               </div>

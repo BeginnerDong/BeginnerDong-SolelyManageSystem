@@ -472,7 +472,7 @@ export default {
             optionDataName:'',
             changeFunc:function(val,self){
               if(val){
-                self.searchItem.cell = val;
+                self.searchItem.cell = ['like','%'+val+'%'];
               }else{
                 delete self.searchItem.cell;
               };
@@ -702,6 +702,7 @@ export default {
                 };
                 self.submitData.name = self.originFormData.description;
                 self.submitData.client = self.originFormData.name;
+                self.submitData.client_no = self.originFormData.id;
                 self.submitData.phone = self.originFormData.phone;
                 self.submitData.user_no = self.originFormData.sales_manager;
                 self.submitData.sales_manager = self.originFormData.sales_manager;
@@ -978,7 +979,15 @@ export default {
       self.table_arguments.loading = true;
       const postData  = {};
       if(isNew){
-        self.paginate.currentPage = 1;
+        self.paginate = {
+          count: 0,
+          currentPage: 1,
+          pagesize:10,
+          is_page:true,
+          page_sizes: [10, 30, 60, 90],
+          layout: 'total, sizes, prev, pager, next, jumper',
+        };
+
       };
       postData.paginate = self.$$cloneForm(self.paginate);
       postData.token = self.$store.getters.getToken;
@@ -1017,7 +1026,8 @@ export default {
           middleKey: "id",
           searchItem: {status: 1},
           tableName: "Conversation"
-        }
+        },
+       
       };
       var res =  await self.$$api_clientGet({data: postData});
       self.mainData = res.info.data;
