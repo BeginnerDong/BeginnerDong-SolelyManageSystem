@@ -6,9 +6,10 @@
                 <el-row style="height: 100%;">
                     <el-col style="height: 100%;">
                         <el-card shadow="hover" class="mgb20" style="height:30%;" body-style="height:100%">
-                            <div   style="height: 70%;display: flex;">
+                            <div style="height: 70%;display: flex;">
                                 <div style="width: 18%;">
                                   <img :src="user.mainImg&&user.mainImg.length>0?user.mainImg[0]['url']:'../../assets/logo.png'" class="user-avator" />
+                                  <img style="width: 80px;" :src="qrcode"/>
                                 </div>
                                 <div class="user-info-cont">
                                     <div>{{user.name}}</div>
@@ -23,7 +24,6 @@
                                   </div>
                                   <div>
                                     <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['签到',{},btn_info[5]])">{{isSign?'签退':'签到'}}</el-button>
-
                                     <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['添加任务',{},btn_info[4]])">添加任务</el-button>
                                   </div>
                                 </div>
@@ -34,17 +34,14 @@
                             <div slot="header" class="clearfix">
                                 <span>任务列表<span style="font-size: 14px;">&nbsp;&nbsp;(--{{missionData.length}}--项待完成)</span></span>
                             </div>
-                            <div  style="height:100%;overflow: auto;">
+                            <div style="height:100%;overflow: auto;">
                               <div style="width:49%;float:left;margin-right: 0.5%;break-inside: avoid;">
-
                                 <template v-for="(item,index) in leftMissionData">
-
                                   <el-card :key="index"  shadow="hover" style="width:99%;margin-bottom: 10px;">
                                     <div style="text-align: left;margin-bottom: 10px;font-size:14px;font-weight: bold;color:#f56c6c">发布者&nbsp;&nbsp;&nbsp;--&nbsp;{{item.Punlisher.name}}</div>
                                     <div style="margin-bottom: 30px;word-wrap: break-word;word-break: normal;">{{item.content}}</div>
                                     <div style="text-align: left;font-size: 14px;margin-bottom: 10px;"><span style="font-weight: bold;">截止时间：</span><span>
                                     {{self.$$formatDate( new Date(parseInt(item.dead_time)) ,'yyyy-MM-dd hh:mm')}}
-
                                     </span></div>
                                     <div class="user-info-list">{{item.create_time}}</div>
                                     <div style="text-align: left;">
@@ -52,20 +49,17 @@
                                       &nbsp;&nbsp;&nbsp;
                                       <span v-if="parseInt(item.dead_time)>new Date().getTime()" style="font-size:14px">正常</span>
                                       <span v-else style="font-size:14px;color:red">已延期</span>
-
                                     </div>
                                   </el-card>
                                 </template>
                               </div>
                               <div style="width:49%;float:left;margin-right: 0.5%;break-inside: avoid;">
                                 <template v-for="(item,index) in rightMissionData">
-
                                   <el-card :key="index"  shadow="hover" style="width:99%;margin-bottom: 10px;">
                                     <div style="text-align: left;margin-bottom: 10px;font-size:14px;font-weight: bold;color:#f56c6c">发布者&nbsp;&nbsp;&nbsp;--&nbsp;{{item.Punlisher.name}}</div>
                                     <div style="margin-bottom: 30px;word-wrap: break-word;word-break: normal;">{{item.content}}</div>
                                     <div style="text-align: left;font-size: 14px;margin-bottom: 10px;"><span style="font-weight: bold;">截止时间：</span><span>
                                     {{self.$$formatDate( new Date(parseInt(item.dead_time)) ,'yyyy-MM-dd hh:mm')}}
-
                                     </span></div>
                                     <div class="user-info-list">{{item.create_time}}</div>
                                     <div style="text-align: left;">
@@ -73,27 +67,23 @@
                                       &nbsp;&nbsp;&nbsp;
                                       <span v-if="parseInt(item.dead_time)>new Date().getTime()" style="font-size:14px">正常</span>
                                       <span v-else style="font-size:14px;color:red">已延期</span>
-
                                     </div>
                                   </el-card>
                                 </template>
                               </div>
-
                             </div>
                         </el-card>
                     </el-col>
                 </el-row>
             </el-col>
             <el-col :span="12" style="height: 100%;">
-
-                <el-card  shadow="hover"  style="overflow:auto;height:95%">
+                <el-card shadow="hover"  style="overflow:auto;height:95%">
                     <div slot="header" class="clearfix">
                         <span>主面板</span>
                     </div>
                     <template>
-                        <el-main >
-
-                          <template v-for="(item,index) in mainData"  >
+                        <el-main>
+                          <template v-for="(item,index) in mainData">
                             <el-card :key="index" v-if="item.type==1" shadow="hover" class="mgb20">
                               <div style="text-align: left;margin-bottom: 10px;font-weight: bold;color:#30b7f4">日志&nbsp;&nbsp;&nbsp;--&nbsp;{{item.behavior=='1'?'延期':'正常'}}</div>
                               <div style="margin-bottom: 30px;">{{item.content}}</div>
@@ -112,7 +102,6 @@
                             </el-card>
                             <el-card :key="index" v-if="item.type==2" shadow="hover" class="mgb20">
                               <div style="text-align: left;margin-bottom: 10px;font-weight: bold;color:#30b7f4">{{item.num==0?'签到':'签退'}}&nbsp;&nbsp;&nbsp;--&nbsp;{{item.behavior=='0'?'正常':(item.num==0?'迟到':'早退')}}</div>
-
                               <div class="user-info-list">{{item.create_time}}</div>
                             </el-card>
                             <el-card :key="index" v-if="item.type==4" shadow="hover" class="mgb20">
@@ -132,7 +121,6 @@
                                :defaultValue="item.coordinate"
                                :is="'baidu-map'"
                                :fieldArguments="{textHide:true,style:'width:100%;height:200px'}"
-
                                >
                               </component></div>
                               <div style="text-align: left;font-size: 14px;margin-bottom: 10px;"><span style="font-weight: bold;">出发到达时间：</span><span>
@@ -148,8 +136,6 @@
                               <div class="user-info-list">{{item.create_time}}</div>
                             </el-card>
                           </template>
-
-
                         </el-main>
                     </template>
                 </el-card>
@@ -160,10 +146,8 @@
         :title="btnNow.text&&btnNow.text(orginFormData)?btnNow.text(orginFormData):''"
         :visible.sync="dialog.dialogFormVisible"
         :close-on-click-modal = 'false'
-
         >
           <div style="overflow:hidden;zoom:1;text-align: left;padding: 2%;">
-
             <template v-for='(field,index) in fields'>
                <div
                 :key="index"
@@ -174,7 +158,6 @@
                >
                  <div style="display: inline-block;width: 100px;text-align: left;font-weight: bold;vertical-align: top;">{{field.label}}：</div>
                  <div style="display: inline-block;min-width: 225px;min-height: 50px;">
-
                    <component
                      :field="field"
                      :optionData="optionData[field.optionsName]"

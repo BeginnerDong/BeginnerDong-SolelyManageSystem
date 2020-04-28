@@ -5,6 +5,7 @@
       v-if="!fieldArguments.suggest"
       :type="fieldArguments.type"
       :style="fieldArguments.style"
+      autocomplete="off"
       :size="fieldArguments.size?fieldArguments.size:'medium'"
       :clearable="fieldArguments.clearable?fieldArguments.clearable:true"
       v-model="input_defaultValue"
@@ -20,7 +21,6 @@
       :trigger-on-focus="false"
       :clearable="fieldArguments.clearable?fieldArguments.clearable:true"
       @select="handleSelectTest"
-
     ></el-autocomplete>
   </div>
 </template>
@@ -46,7 +46,7 @@
         }else{
           this.$emit('onChange', {field:self.field,value:item[self.field.key]})
         };
-        
+
       },
       querySearch(queryString, cb) {
         const self = this;

@@ -254,12 +254,6 @@ export default {
             },
           }
         },
-
-
-
-
-
-
         {
           key: 'conversation_description',
           label: '沟通记录',
@@ -267,7 +261,6 @@ export default {
           componentName:'sls-input',
           listType:'',
         },
-
         {
           key: 'address',
           label: '客户地区',
@@ -358,7 +351,6 @@ export default {
               };
               self.initMainData(true);
             },
-
           }
         },
         {
@@ -429,15 +421,12 @@ export default {
           },
           placeholder:'请选择售后产品经理',
         },
-
-
         {
           key: 'plan',
           label: '运营计划',
           application:['编辑','添加'],
           componentName:'sls-input',
           listType:'normal',
-
           header_search:{
             componentName:'sls-input',
             style:'width:160px;margin-right:2px;',
@@ -462,7 +451,6 @@ export default {
           application:['编辑','添加'],
           componentName:'sls-input',
           listType:'normal',
-
           header_search:{
             componentName:'sls-input',
             style:'width:160px;margin-right:2px;',
@@ -478,10 +466,31 @@ export default {
               };
               self.initMainData(true);
             },
-
           },
         },
-
+        {
+          key: 'keywords',
+          label: '运营关键词',
+          application:['编辑','添加'],
+          componentName:'sls-input',
+          listType:'normal',
+          header_search:{
+            componentName:'sls-input',
+            style:'width:160px;margin-right:2px;',
+            placeholder:'请输入运营关键词',
+            clearable:true,
+            defaultValue:'',
+            optionDataName:'',
+            changeFunc:function(val,self){
+              if(val){
+                self.searchItem.keywords = ['like','%'+val+'%'];
+              }else{
+                delete self.searchItem.keywords;
+              };
+              self.initMainData(true);
+            },
+          },
+        },
         {
           key: 'create_time',
           label: '创建时间',
@@ -1027,7 +1036,7 @@ export default {
           searchItem: {status: 1},
           tableName: "Conversation"
         },
-       
+
       };
       var res =  await self.$$api_clientGet({data: postData});
       self.mainData = res.info.data;

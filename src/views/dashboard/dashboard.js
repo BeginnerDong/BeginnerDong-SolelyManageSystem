@@ -46,7 +46,6 @@ export default {
           placeholder:'请选择状态',
           width:100,
           isHide:function(self){
-
             if(self.dialog&&self.$store.getters.getUserinfo.user_no!=self.formData.publish_user){
               return true;
             }else{
@@ -68,7 +67,6 @@ export default {
             },
           }
         },
-
         {
           key: 'content',
           label: '内容',
@@ -121,8 +119,6 @@ export default {
           listType:'normal',
           dialogStyle:'width:90%'
         },
-
-
         {
           key: 'start_time',
           label: '请假开始时间',
@@ -191,7 +187,6 @@ export default {
           placeholder:'请选择执行者',
           width:100,
           isHide:function(self){
-
             if(self.$store.getters.getUserinfo.primary_scope!=90
             &&self.$store.getters.getUserinfo.user_no!=self.formData.publish_user){
               return true;
@@ -217,7 +212,6 @@ export default {
               self.initMainData(true);
             },
             isHide:function(self){
-
               if(self.$store.getters.getUserinfo.primary_scope==90||self.$store.getters.getUserinfo.behavior==3){
                 return false;
               }else{
@@ -231,7 +225,6 @@ export default {
           label: '创建时间',
           listType:'normal',
           placeholder:'请选择创建时间',
-
           width:200,
         },
         {
@@ -240,10 +233,9 @@ export default {
           width:200
         },
       ],
+
       // 按钮配置
       btn_info: [
-
-
 
           {
             type:'info',
@@ -261,7 +253,7 @@ export default {
                 return self.formData
               },
               postData:function(self){
-                var postData={
+                var postData = {
                   searchItem:{
                     id:self.formData.id,
                     user_type:1
@@ -274,15 +266,12 @@ export default {
                 }else{
                   return postData;
                 };
-
               },
               callback:function(self){
                 self.initMissionData(true)
               }
             },
           },
-
-
           {
             type:'danger',
             icon:'delete',
@@ -293,11 +282,9 @@ export default {
               return '删除选中'
             },
             func:{
-
               apiName:function(self){
                 return "api_routineUpdate"
               },
-
               postData:function(self){
                 var deleteArray = [];
                 for (var i = 0; i < self.selectionArray.length; i++) {
@@ -313,10 +300,8 @@ export default {
                 };
                 return postData;
               }
-
             },
           },
-
           {
             type:'info',
             icon:'edit',
@@ -395,8 +380,7 @@ export default {
                 return data
               },
               postData:function(self){
-
-                var postData={
+                var postData = {
                   data:self.submitData
                 };
                 if(!postData.data.user_no){
@@ -423,30 +407,23 @@ export default {
               return '签到'
             },
             func:{
-
               apiName:function(self){
                 return "api_routineAdd"
               },
-
               postData:function(self){
-
                 var postData = {
                   data:{
                     type:2,
-
                   }
                 };
-
                 return postData;
               },
               callback:function(self){
                 self.isSign = !self.isSign;
                 self.initMainData(true);
               }
-
             },
           },
-
           {
             type:'info',
             icon:'edit',
@@ -475,16 +452,14 @@ export default {
                 }else{
                   return postData;
                 };
-
               },
               callback:function(self){
                 self.initUserInfoData()
               }
             },
           },
-
-
       ],
+
       paginate: {
         count: 0,
         currentPage: 1,
@@ -588,9 +563,6 @@ export default {
       UserInfo:{
         tableName:'UserInfo',
         searchItem:{},
-        fixSearchItem:{
-          status:1
-        },
         key:'user_no',
         middleKey:'user_no',
         condition:'in',
@@ -641,7 +613,8 @@ export default {
     /**
      * 初始化
      */
-    init () {
+    init() {
+      // this.initGetCode();
       this.initUserInfoData();
       this.initMainData();
       this.initUserData();
@@ -649,31 +622,48 @@ export default {
 
     },
 
+
+    /**
+     * 获取登录二维码
+     */
+    async initGetCode(isNew) {
+
+      const self = this;
+      const postData = {};
+      postData.token = self.$store.getters.getToken;
+
+      var res = await self.$$api_getLoginCode({data: postData});
+      if(res.info){
+        self.qrcode = res.info;
+        console.log('qrcode',self.qrcode);
+      };
+
+    },
+
+
     /**
      *
      */
-    async initUserInfoData (isNew) {
+    async initUserInfoData(isNew) {
 
       const self = this;
       const postData  = {};
       postData.token = self.$store.getters.getToken;
 
-      var res =  await self.$$api_userInfoGet({data: postData});
+      var res = await self.$$api_userInfoGet({data: postData});
       if(res.info.data.length>0){
         self.user = res.info.data[0];
       };
-
-
 
     },
 
      /**
      *
      */
-    async initUserData (isNew) {
+    async initUserData(isNew) {
 
       const self = this;
-      const postData  = {};
+      const postData = {};
 
       postData.token = self.$store.getters.getToken;
       if (self.searchItem) {
@@ -694,7 +684,7 @@ export default {
     /**
      * 列表主函数
      */
-    async initMainData (isNew) {
+    async initMainData(isNew) {
 
       const self = this;
       const postData  = {};
@@ -723,7 +713,7 @@ export default {
         },
 
       };
-      var res =  await self.$$api_routineGet({data: postData});
+      var res = await self.$$api_routineGet({data: postData});
       self.mainData = res.info.data;
       var lastSign = '';
       for(var i=0;i<self.mainData.length;i++){

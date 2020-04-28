@@ -9,6 +9,13 @@ export default [
     tokenFlag:'false',
     type: 'post'
   },
+  {
+    name: '获取登录二维码',
+    method: 'getLoginCode',
+    path: '/Project/Solely/getLoginCode',
+    tokenFlag:'false',
+    type: 'post'
+  },
 
   {
     name: '获取用户',
@@ -494,15 +501,15 @@ export default [
     path: 'Common/IpLog/delete',
     type: 'post',
   },
-  
-  
+
+
   {
     name: '添加ip信息',
     method: 'newAddIpLog',
     path: 'Project/Solely/newAddIpLog',
     type: 'post',
   },
-  
+
   {
     name: '生成工资',
     method: 'createSalary',
