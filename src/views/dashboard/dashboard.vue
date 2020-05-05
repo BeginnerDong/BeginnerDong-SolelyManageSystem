@@ -23,7 +23,7 @@
                                     <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['写日志',{},btn_info[3]])">写日志</el-button>
                                   </div>
                                   <div>
-                                    <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['签到',{},btn_info[5]])">{{isSign?'签退':'签到'}}</el-button>
+                                    <!-- <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['签到',{},btn_info[5]])">{{isSign?'签退':'签到'}}</el-button> -->
                                     <el-button type="primary" plain style="margin-bottom:5px;" size="small" @click="onClickBtn(['添加任务',{},btn_info[4]])">添加任务</el-button>
                                   </div>
                                 </div>

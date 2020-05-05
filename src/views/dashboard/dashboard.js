@@ -614,7 +614,7 @@ export default {
      * 初始化
      */
     init() {
-      // this.initGetCode();
+      this.initGetCode();
       this.initUserInfoData();
       this.initMainData();
       this.initUserData();
