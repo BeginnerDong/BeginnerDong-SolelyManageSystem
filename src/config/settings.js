@@ -133,7 +133,7 @@ var gbs = {
         },
         {
           id:'24',
-          name:'学习资料',
+          name:'资料库',
           router:'/home/eduList',
           icon: 'reorder',
           isShow:true,

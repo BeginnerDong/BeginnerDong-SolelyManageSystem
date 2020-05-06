@@ -121,12 +121,6 @@ export default {
           width:200,
         },
         {
-          key: 'create_time',
-          label: '创建时间',
-          listType:'',
-          placeholder:'请选择创建时间',
-        },
-        {
           key: 'description',
           label: '项目名称',
           application:['编辑','添加'],
@@ -547,7 +541,10 @@ export default {
                 return self.formData
               },
               postData:function(self){
-                var postData={
+                if(self.submitData.create_time){
+                  self.submitData.create_time = self.submitData.create_time/1000;
+                };
+                var postData = {
                   searchItem:{
                     id:self.formData.id,
                     user_no:self.formData.user_no
@@ -564,7 +561,6 @@ export default {
               }
             },
           },
-
           {
             type:'info',
             icon:'edit',

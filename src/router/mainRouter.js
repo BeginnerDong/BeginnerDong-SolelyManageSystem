@@ -60,7 +60,7 @@ export default [
       },
       {
         path: 'eduList',
-        name: '学习资料',
+        name: '资料库',
         component: Content.EduList
       },
       {
