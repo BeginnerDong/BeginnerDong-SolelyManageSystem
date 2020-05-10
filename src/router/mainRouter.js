@@ -49,6 +49,16 @@ export default [
         component: User.Staff
       },
       {
+        path: 'role',
+        name: '角色管理',
+        component: User.Role
+      },
+      {
+        path: 'access',
+        name: '权限管理',
+        component: User.Access
+      },
+      {
         path: 'articleLabel',
         name: '文章菜单',
         component: Content.Articlelabel

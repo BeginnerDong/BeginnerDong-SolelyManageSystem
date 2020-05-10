@@ -96,6 +96,15 @@ var gbs = {
           button:['编辑','添加','删除选中'],
           hasButton:[]
         },
+        {
+          id:'14',
+          name:'角色列表',
+          router:'/home/role',
+          icon: 'reorder',
+          isShow:true,
+          button:['编辑','添加','删除选中','管理权限'],
+          hasButton:[]
+        },
       ]
     },
     {
@@ -155,7 +164,7 @@ var gbs = {
           router:'/home/journal',
           icon: 'reorder',
           isShow:true,
-          button:['编辑','删除选中','添加'],
+          button:['编辑','删除选中','添加','申请异常'],
           hasButton:[]
         },
         {
@@ -173,7 +182,7 @@ var gbs = {
           router:'/home/sign',
           icon: 'reorder',
           isShow:true,
-          button:['编辑','删除选中','添加'],
+          button:['编辑','删除选中','添加','申请异常'],
           hasButton:[]
         },
         {
@@ -182,7 +191,7 @@ var gbs = {
           router:'/home/outdoors',
           icon: 'reorder',
           isShow:true,
-          button:['编辑','删除选中','添加'],
+          button:['编辑','删除选中','添加','申请异常'],
           hasButton:[]
         },
         {
@@ -200,7 +209,7 @@ var gbs = {
           router:'/home/discipline',
           icon: 'reorder',
           isShow:true,
-          button:['编辑','删除选中','添加'],
+          button:['编辑','删除选中','添加','申请异常'],
           hasButton:[]
         },
 

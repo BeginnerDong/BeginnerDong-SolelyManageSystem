@@ -121,14 +121,14 @@ export default {
                 }else{
                   self.searchItem.user_no = val;
                 };
-        
+
               }else{
                 delete self.searchItem.user_no;
               };
               self.initMainData(true);
             },
             isHide:function(self){
-        
+
               if(self.$store.getters.getUserinfo.primary_scope<40){
                 return true;
               }else{
@@ -192,13 +192,52 @@ export default {
           width:200,
         },
         {
+          key: 'apply',
+          label: '申请处理',
+          application:['编辑'],
+          formatter:function(val,tests){
+            return val.apply==0?'正常':'申请中';
+          },
+          componentName:'sls-select',
+          optionsName:'applyOptions',
+          listType:'normal',
+          limit:10,
+          defaultProps: {
+            label: 'text',
+            value: 'value',
+          },
+          placeholder:'请选择申请状态',
+          width:100,
+          header_search:{
+            componentName:'sls-select',
+            optionsName:'applyOptions',
+            style:'width:160px;margin-right:2px;',
+            placeholder:'请选择申请状态',
+            changeFunc:function(val,self){
+              if(val){
+                self.searchItem.apply = val;
+              }else{
+                delete self.searchItem.apply;
+              };
+              self.initMainData(true);
+            },
+          }
+        },
+        {
           key: 'create_time',
           label: '创建时间',
           listType:'normal',
           placeholder:'请选择创建时间',
           width:200,
         },
-
+        {
+          key: 'description',
+          label: '说明',
+          application:['申请异常'],
+          componentName:'sls-textarea',
+          listType:'normal',
+          width:200
+        },
         {
           label: '操作',
           listType:'deal',
@@ -254,11 +293,9 @@ export default {
               return '删除选中'
             },
             func:{
-
               apiName:function(self){
                 return "api_routineUpdate"
               },
-
               postData:function(self){
                 var deleteArray = [];
                 for (var i = 0; i < self.selectionArray.length; i++) {
@@ -275,10 +312,8 @@ export default {
                 };
                 return postData;
               }
-
             },
           },
-
           {
             type:'info',
             icon:'edit',
@@ -308,8 +343,51 @@ export default {
               }
             },
           },
+          {
+            type:'info',
+            icon:'edit',
+            size:'mini',
+            position:'list',
+            text:function(data){
+              return '申请异常'
+            },
+            isHide:function(data,self){
+              var nowTime = new Date(new Date(new Date().toLocaleDateString()).getTime());
+              if(new Date(data.create_time).getTime()<nowTime||data.behavior==0){
+                return true;
+              }else{
+                return false;
+              };
+            },
+            func:{
+              apiName:function(self){
+                return "api_routineUpdate"
+              },
+              formData:function(self){
+                return self.formData
+              },
+              postData:function(self){
+                self.submitData.apply = 1;
+                var postData = {
+                  searchItem:{
+                    id:self.formData.id,
+                    type:3,
+                    user_type:1
+                  },
+                  data:self.submitData
+                };
+                if(self.submitData.parentid&&self.submitData.parentid==self.formData.id){
+                  self.$$notify('父级ID和子级ID重叠','fail');
+                  return false;
+                }else{
+                  return postData;
+                };
+              }
+            },
+          },
 
       ],
+
       paginate: {
         count: 0,
         currentPage: 1,
@@ -328,6 +406,13 @@ export default {
           value: 0
         }, {
           text: '异常',
+          value: 1
+        }],
+        applyOptions:[{
+          text: '正常',
+          value: 0
+        }, {
+          text: '处理中',
           value: 1
         }],
         statusOptions:[{
@@ -518,7 +603,7 @@ export default {
       self.btnName = val[0];
       self.formData = val[2].func.formData?self.$$cloneForm(val[2].func.formData(self)):{};
       self.orginFormData = val[1];
-      
+
       self.btnNow = val[2];
       if(!val[2].funcType){
         self.dialog.dialogFormVisible = true;

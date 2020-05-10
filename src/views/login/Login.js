@@ -167,7 +167,8 @@ export default {
       if(userInfo.primary_scope==90){
         var checkData = 'All';
       }else{
-        var checkData = userInfo.passage_array;
+        // var checkData = userInfo.passage_array;
+        var checkData = userInfo.auth;
       };
 
       pushItemsExclude(data,results,router);

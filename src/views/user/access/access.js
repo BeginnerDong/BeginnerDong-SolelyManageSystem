@@ -130,21 +130,20 @@ export default {
           },
           func:{
             apiName:function(data){
-              return "api_userUpdate"
+              return "api_updateAuth"
             },
             postData:function(self){
               var postData = {
                 searchItem:{
-                  user_no:self.user_no
+                  role:self.role,
                 },
                 data:{
-                  passage_array:self.auth
+                  auth:self.auth,
                 }
               };
               console.log('postData',postData)
               return postData;
             }
-
           },
         },
         {
@@ -258,23 +257,37 @@ export default {
     /**
      * 初始化
      */
-    init () {
+    init() {
+
       const self = this;
-
-      self.auth = this.$route.params.defaultChecked;
+      self.role = this.$route.params.role;
+      // self.auth = this.$route.params.defaultChecked;
       self.path = this.$route.params.path;
-      console.log('self.auth',self.auth)
-      if(!self.auth){
-        self.$router.push('/home/adminLists');
-      };
-      self.user_no = this.$route.params.user_no;
+      // console.log('self.auth',self.auth)
+      // if(!self.auth){
+      //   self.$router.push('/home/adminLists');
+      // };
+      // self.user_no = this.$route.params.user_no;
       self.menu = this.$store.state.user.menu;
-
-
       console.log('init',self.menu);
+      this.initRoleData()
 
+    },
+    
+    
+    async initRoleData(){
+    
+      const self = this;
+      const postData  = {};
+    
+      postData.token = self.$store.getters.getToken;
+      postData.searchItem = {
+        role: self.role
+      };
+      var res = await self.$$api_authGet({data: postData});
+      self.auth = res.info;
       this.initMainData()
-
+    
     },
 
 

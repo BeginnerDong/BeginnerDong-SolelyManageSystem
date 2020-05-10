@@ -88,6 +88,26 @@ export default {
           }
         },
         {
+          key: 'role',
+          label: '角色',
+          application:['编辑账号','添加账号'],
+          componentName:'sls-select',
+          optionsName:'roleOptions',
+          listType:'',
+          limit:10,
+          defaultProps: {
+            label: 'name',
+            value: 'id',
+          },
+          isHide:function(self){
+            if(self.dialog&&self.$store.getters.getUserinfo.primary_scope<60){
+              return true;
+            }else{
+              return false;
+            }
+          },
+        },
+        {
           key: "name",
           label: '员工姓名',
           application:['添加信息','编辑信息'],
@@ -110,7 +130,6 @@ export default {
               self.beforeSearch('UserInfo');
             },
           },
-
         },
         {
           key: "phone",
@@ -145,8 +164,6 @@ export default {
             return val.info&&val.info.level?val.info.level:''
           }
         },
-        
-        
         {
           key: "score_ratio",
           label: '是否实习',
@@ -214,7 +231,6 @@ export default {
           customSlot:'behavior',
           componentName:'sls-select',
           optionsName:'behaviorOptions',
-
           filter_multiple: false,
           listType:'normal',
           defaultProps: {
@@ -241,19 +257,12 @@ export default {
           },
         },
         {
-          key: "name",
-          label: '内容',
-          application:[],
-          type:'vueEditor',
-        },
-        {
           key: 'primary_scope',
           label: '员工权限',
           application:['编辑账号','添加账号'],
           componentName:'sls-input',
           listType:'normal',
           isHide:function(self){
-
             if(self.dialog&&self.$store.getters.getUserinfo.primary_scope<60){
               return true;
             }else{
@@ -279,7 +288,7 @@ export default {
             };
           }
         },
-        
+
         {
           key: 'create_time',
           label: '创建时间',
@@ -319,19 +328,15 @@ export default {
               }else{
                 return ['编辑信息','添加信息'];
               }
-
             },
             func:{
               apiName:function(self){
                 return JSON.stringify(self.formData.info) != "[]" ?"api_userInfoUpdate":"api_userInfoAdd"
               },
-
               formData:function(self){
-
                 var data = self.formData.info;
                 return data
               },
-
               postData:function(self){
                 if(self.btnName=='编辑信息'){
                   var postData={
@@ -347,7 +352,6 @@ export default {
                   };
                 };
                 postData.data.user_no=self.orginFormData.user_no;
-
                 return postData;
               }
             },
@@ -365,7 +369,6 @@ export default {
                 return "api_userUpdate"
               },
               formData:function(self){
-
                 return self.formData
               },
               postData:function(self){
@@ -399,7 +402,6 @@ export default {
             func:{
               func:function(self){
                 console.log('self.orginFormData',self.orginFormData);
-
                 self.$router.push({
                   path:'/home/access',
                   name:'权限管理',
@@ -410,7 +412,6 @@ export default {
                     path:'/home/staff',
                   }
                 });
-
               },
               postData:function(self){
                 var postData={
@@ -433,11 +434,9 @@ export default {
               return '删除选中'
             },
             func:{
-
               apiName:function(self){
                 return "api_userUpdate"
               },
-
               postData:function(self){
                 var deleteArray = [];
                 for (var i = 0; i < self.selectionArray.length; i++) {
@@ -454,7 +453,6 @@ export default {
                 };
                 return postData;
               }
-
             },
           },
           {
@@ -486,6 +484,7 @@ export default {
             },
           },
       ],
+
       paginate: {
         count: 0,
         currentPage: 1,
@@ -499,6 +498,7 @@ export default {
       },
       optionData:{
         labelOptions:[],
+        roleOptions:[],
         scoreRatioOptions:[{
           text: '正式',
           value: 1
@@ -549,9 +549,6 @@ export default {
         tableName:'UserInfo',
         searchItem:{
         },
-        fixSearchItem:{
-          status:1
-        },
         key:'user_no',
         middleKey:'user_no',
         condition:'in',
@@ -596,14 +593,31 @@ export default {
     /**
      * 初始化
      */
-    init () {
+    init() {
       this.initMainData()
+      this.initRoleData()
     },
+
+
+    async initRoleData(){
+
+      const self = this;
+      const postData  = {};
+
+      postData.token = self.$store.getters.getToken;
+      postData.searchItem = {
+        status: 1
+      };
+      var res = await self.$$api_roleGet({data: postData});
+      self.optionData.roleOptions = res.info.data;
+
+    },
+
 
     /**
      * 列表主函数
      */
-    async initMainData () {
+    async initMainData() {
 
       const self = this;
       const postData  = {};

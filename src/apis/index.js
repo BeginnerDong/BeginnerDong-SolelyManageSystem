@@ -42,12 +42,20 @@ export default [
     type: 'post'
   },
 
+  //权限
+  {
+    name: '获取权限列表',
+    method: 'authGet',
+    path: '/Project/Solely/getAuth',
+    type: 'post'
+  },
   {
     name: '更新权限',
     method: 'updateAuth',
     path: '/Project/Solely/setAuth',
     type: 'post'
   },
+
   {
     name: '更新用户信息',
     method: 'userInfoUpdate',
@@ -517,5 +525,30 @@ export default [
     type: 'post',
   },
 
+  //角色
+  {
+    name: '获取角色信息',
+    method: 'roleGet',
+    path: 'Common/Role/get',
+    type: 'post',
+  },
+  {
+    name: '增加角色信息',
+    method: 'roleAdd',
+    path: 'Common/Role/add',
+    type: 'post',
+  },
+  {
+    name: '更新角色信息',
+    method: 'roleUpdate',
+    path: 'Common/Role/update',
+    type: 'post',
+  },
+  {
+    name: '删除角色信息',
+    method: 'roleDelete',
+    path: 'Common/Role/delete',
+    type: 'post',
+  },
 
 ]

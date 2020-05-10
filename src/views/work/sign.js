@@ -28,7 +28,6 @@ export default {
           componentName:'sls-input',
           listType:'normal',
         },
-
         {
           key: 'behavior',
           label: '是否迟到',
@@ -69,6 +68,38 @@ export default {
           }
         },
         {
+          key: 'apply',
+          label: '申请处理',
+          application:['编辑'],
+          formatter:function(val,tests){
+            return val.apply==0?'正常':'申请中';
+          },
+          componentName:'sls-select',
+          optionsName:'applyOptions',
+          listType:'normal',
+          limit:10,
+          defaultProps: {
+            label: 'text',
+            value: 'value',
+          },
+          placeholder:'请选择申请状态',
+          width:100,
+          header_search:{
+            componentName:'sls-select',
+            optionsName:'applyOptions',
+            style:'width:160px;margin-right:2px;',
+            placeholder:'请选择申请状态',
+            changeFunc:function(val,self){
+              if(val){
+                self.searchItem.apply = val;
+              }else{
+                delete self.searchItem.apply;
+              };
+              self.initMainData(true);
+            },
+          }
+        },
+        {
           key: 'num',
           label: '状态',
           application:['编辑','添加'],
@@ -84,12 +115,12 @@ export default {
             label: 'text',
             value: 'value',
           },
-          placeholder:'请选择状态',
+          placeholder:'请选择类型',
           header_search:{
             componentName:'sls-select',
             optionsName:'numOptions',
             style:'width:160px;margin-right:2px;',
-            placeholder:'请选择状态',
+            placeholder:'请选择类型',
             changeFunc:function(val,self){
               if(val){
                 self.searchItem.num = val;
@@ -182,6 +213,13 @@ export default {
           width:200,
         },
         {
+          key: 'description',
+          label: '说明',
+          application:['申请异常'],
+          componentName:'sls-textarea',
+          listType:'normal',
+        },
+        {
           label: '操作',
           listType:'deal',
         },
@@ -238,7 +276,6 @@ export default {
                 return "api_routineUpdate"
               },
               postData:function(self){
-
                 if(self.selectionArray.length>0){
                   var postData = {
                     searchItem:{
@@ -254,7 +291,6 @@ export default {
                 }else{
                   return false
                 }
-
               }
             },
           },
@@ -290,7 +326,51 @@ export default {
               }
             },
           },
+          {
+            type:'info',
+            icon:'edit',
+            size:'mini',
+            position:'list',
+            text:function(data){
+              return '申请异常'
+            },
+            isHide:function(data,self){
+              //未生效
+              var nowTime = new Date(new Date(new Date().toLocaleDateString()).getTime());
+              if(new Date(data.create_time).getTime()<nowTime||data.behavior==0){
+                return true;
+              }else{
+                return false;
+              };
+            },
+            func:{
+              apiName:function(self){
+                return "api_routineUpdate"
+              },
+              formData:function(self){
+                return self.formData
+              },
+              postData:function(self){
+                self.submitData.apply = 1;
+                var postData = {
+                  searchItem:{
+                    id:self.formData.id,
+                    type:2,
+                    user_type:1
+                  },
+                  data:self.submitData
+                };
+                if(self.submitData.parentid&&self.submitData.parentid==self.formData.id){
+                  self.$$notify('父级ID和子级ID重叠','fail');
+                  return false;
+                }else{
+                  return postData;
+                };
+              }
+            },
+          },
       ],
+
       paginate: {
         count: 0,
         currentPage: 1,
@@ -314,6 +394,13 @@ export default {
         }, {
           text: '早退',
           value: 2
+        }],
+        applyOptions:[{
+          text: '正常',
+          value: 0
+        }, {
+          text: '处理中',
+          value: 1
         }],
         numOptions:[{
           text: '签到',
