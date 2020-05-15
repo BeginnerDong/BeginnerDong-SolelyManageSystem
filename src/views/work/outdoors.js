@@ -15,7 +15,7 @@ export default {
           hasChildren:'child'
         },
         default_expand_all:false,
-        expand:false,
+        expand:true,
         selection:true,
         cell_style:{},
         loading:true
@@ -137,60 +137,60 @@ export default {
             },
           }
         },
-        {
-          key: 'start_time',
-          label: '出发时间',
-          application:['编辑','添加'],
-          listType:'normal',
-          customSlot:'start_time',
-          componentName:'sls-datetime',
-          placeholder:'请选择出发时间',
-          header_search:{
-            componentName:'sls-date-time-range',
-            style:'width:160px;margin-right:2px;',
-            start_placeholder:'出发时间',
-            end_placeholder:'出发结束时间',
-            changeFunc:function(value,self){
-              if(!value){
-                delete self.searchItem.start_time;
-              }else{
-                self.searchItem.start_time = ['between',value = value.map(function(e){return e/1000;})];
-              };
-              self.initMainData(true);
-            },
-          },
-          width:200,
-        },
-        {
-          key: 'arrive_time',
-          label: '到达时间',
-          componentName:'sls-datetime',
-          customSlot:'arrive_time',
-          application:['编辑','添加'],
-          listType:'normal',
-          placeholder:'请选择结束时间',
-          width:200,
-        },
-        {
-          key: 'back_time',
-          label: '返程时间',
-          componentName:'sls-datetime',
-          customSlot:'back_time',
-          application:['编辑','添加'],
-          listType:'normal',
-          placeholder:'请选择返程时间',
-          width:200,
-        },
-        {
-          key: 'end_time',
-          label: '结束时间',
-          componentName:'sls-datetime',
-          customSlot:'end_time',
-          application:['编辑','添加'],
-          listType:'normal',
-          placeholder:'请选择结束时间',
-          width:200,
-        },
+        // {
+        //   key: 'start_time',
+        //   label: '出发时间',
+        //   application:['编辑','添加'],
+        //   listType:'normal',
+        //   customSlot:'start_time',
+        //   componentName:'sls-datetime',
+        //   placeholder:'请选择出发时间',
+        //   header_search:{
+        //     componentName:'sls-date-time-range',
+        //     style:'width:160px;margin-right:2px;',
+        //     start_placeholder:'出发时间',
+        //     end_placeholder:'出发结束时间',
+        //     changeFunc:function(value,self){
+        //       if(!value){
+        //         delete self.searchItem.start_time;
+        //       }else{
+        //         self.searchItem.start_time = ['between',value = value.map(function(e){return e/1000;})];
+        //       };
+        //       self.initMainData(true);
+        //     },
+        //   },
+        //   width:200,
+        // },
+        // {
+        //   key: 'arrive_time',
+        //   label: '到达时间',
+        //   componentName:'sls-datetime',
+        //   customSlot:'arrive_time',
+        //   application:['编辑','添加'],
+        //   listType:'normal',
+        //   placeholder:'请选择结束时间',
+        //   width:200,
+        // },
+        // {
+        //   key: 'back_time',
+        //   label: '返程时间',
+        //   componentName:'sls-datetime',
+        //   customSlot:'back_time',
+        //   application:['编辑','添加'],
+        //   listType:'normal',
+        //   placeholder:'请选择返程时间',
+        //   width:200,
+        // },
+        // {
+        //   key: 'end_time',
+        //   label: '结束时间',
+        //   componentName:'sls-datetime',
+        //   customSlot:'end_time',
+        //   application:['编辑','添加'],
+        //   listType:'normal',
+        //   placeholder:'请选择结束时间',
+        //   width:200,
+        // },
         {
           key: 'apply',
           label: '申请处理',
@@ -232,11 +232,10 @@ export default {
         },
         {
           key: 'description',
-          label: '说明',
+          label: '申请说明',
           application:['申请异常'],
           componentName:'sls-textarea',
-          listType:'normal',
-          width:200
+          listType:'',
         },
         {
           label: '操作',
@@ -486,7 +485,7 @@ export default {
     /**
      *
      */
-    async initUserData (isNew) {
+    async initUserData(isNew) {
 
       const self = this;
       const postData  = {};
@@ -501,7 +500,7 @@ export default {
         postData.getBefore = self.$$cloneForm(self.getBefore);
       };
 
-      var res =  await self.$$api_userInfoGet({data: postData});
+      var res = await self.$$api_userInfoGet({data: postData});
       self.optionData.userOptions = res.info.data;
 
 
@@ -510,7 +509,7 @@ export default {
     /**
      * 列表主函数
      */
-    async initMainData (isNew) {
+    async initMainData(isNew) {
 
       const self = this;
       self.table_arguments.loading = true;
@@ -538,9 +537,22 @@ export default {
           searchItem: {status: 1},
           tableName: "UserInfo",
         },
-
+        Log:{
+          tableName:'Log',
+          middleKey:'id',
+          key:'relation_id',
+          condition:'=',
+          searchItem:{
+            relation_table:'Routine',
+            type:6,
+          },
+          order:{
+            create_time:'asc',
+          }
+        },
       };
-      var res =  await self.$$api_routineGet({data: postData});
+
+      var res = await self.$$api_routineGet({data: postData});
       self.mainData = res.info.data;
       for(var i=0;i<self.mainData.length;i++){
         self.mainData[i]['coordinate'] = {

@@ -372,7 +372,7 @@ export default {
                 return self.formData
               },
               postData:function(self){
-                var postData={
+                var postData = {
                   searchItem:{
                     id:self.formData.id,
                     user_no:self.formData.user_no,
@@ -606,7 +606,7 @@ export default {
 
       postData.token = self.$store.getters.getToken;
       postData.searchItem = {
-        status: 1
+        user_type: 2
       };
       var res = await self.$$api_roleGet({data: postData});
       self.optionData.roleOptions = res.info.data;

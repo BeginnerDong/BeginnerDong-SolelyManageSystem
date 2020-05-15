@@ -31,9 +31,21 @@
         :otherData='otherData'
         :BasicArguments="table_arguments"
       >
-        <!-- <template v-slot:expand="expand">
-            {{expand.data}}
-        </template> -->
+        <template v-slot:expand="expand">
+          <div v-for="(item,index) in expand.data.Log" :key="index">
+            <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="外出记录:">
+                  <div v-if="item.behavior==1"> 记录：出发</div>
+                  <div v-if="item.behavior==2"> 记录：到达</div>
+                  <div v-if="item.behavior==3"> 记录：返程</div>
+                  <div v-if="item.behavior==4"> 记录：结束</div>
+                  <div>经度：{{ item.longitude }}</div>
+                  <div>纬度：{{ item.latitude }}</div>
+                  <div>时间：{{ item.create_time }}</div>
+                </el-form-item>
+            </el-form>
+          </div>
+        </template>
         <template v-slot:user_no="user_no">
           {{user_no.data.UserInfo.name}}
         </template>
@@ -52,15 +64,11 @@
         <template v-slot:back_time="back_time">
           {{self.$$formatDate( new Date(parseInt(back_time.data.back_time)) ,'yyyy-MM-dd h:m')}}
         </template>
-
         <template v-slot:coordinate="coordinate">
          <component
-
-
            :defaultValue="coordinate.data.coordinate"
            :is="'baidu-map'"
            :fieldArguments="'{}'"
-
            >
           </component>
         </template>

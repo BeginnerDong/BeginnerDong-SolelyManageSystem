@@ -32,32 +32,32 @@ export default {
             self.initMainData();
           },
         },
-		{
-		  key: 'login_name',
-		  label: '用户登录名',
-		  application:['编辑账号','添加账号'],
-		  type:'input',
-		  listType:'normal',
-		  placeholder:'请输入用户登录名',
-		  header_search:true,
-		  header_search_type:'input',
-		  header_search_style:'width:160px;margin-right:2px;',
-		  changeFunc:function(e,self){
-		    if(e.target._value){
-		      self.searchItem.login_name = ['LIKE',['%'+e.target._value+'%']];
-		    }else{
-		      delete self.searchItem.login_name;
-		    };
-		    self.initMainData();
-		  },
-		},
-		{
-		  key: 'password',
-		  label: '用户密码',
-		  application:['编辑账号','添加账号'],
-		  type:'input',
+        {
+          key: 'login_name',
+          label: '用户登录名',
+          application:['编辑账号','添加账号'],
+          type:'input',
+          listType:'normal',
+          placeholder:'请输入用户登录名',
+          header_search:true,
+          header_search_type:'input',
+          header_search_style:'width:160px;margin-right:2px;',
+          changeFunc:function(e,self){
+            if(e.target._value){
+              self.searchItem.login_name = ['LIKE',['%'+e.target._value+'%']];
+            }else{
+              delete self.searchItem.login_name;
+            };
+            self.initMainData();
+          },
+        },
+        {
+          key: 'password',
+          label: '用户密码',
+          application:['编辑账号','添加账号'],
+          type:'input',
 
-		},
+        },
         // {
         //   key: 'latitude',
         //   label: '地址',
@@ -289,7 +289,6 @@ export default {
           size:'mini',
           position:'list',
           text:function(data){
-            console.log(data);
             console.log(JSON.stringify(data.data.info))
             return JSON.stringify(data.data.info)!= '[]'?'编辑信息':'添加信息'
           },
@@ -297,7 +296,6 @@ export default {
             apiName:function(data){
               return JSON.stringify(data.info) != "[]" ?"api_userInfo_update":"api_userInfo_add"
             },
-
             formData:function(data,self,func){
               console.log(data)
               if(self.btnName=='编辑信息'){
@@ -307,7 +305,6 @@ export default {
               };
               return data
             },
-
             postData:function(data,self){
               if(self.btnName=='编辑信息'){
                 var postData={
