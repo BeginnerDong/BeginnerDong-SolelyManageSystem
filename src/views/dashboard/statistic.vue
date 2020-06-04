@@ -18,14 +18,19 @@
 
             <div style="width: 100%;height: 60%;">
               <solely-echarts :options="clientOptions"></solely-echarts>
-              <div>
-                <div v-for="(item,index) in  clientOptions.series" :key="index">
+              <div style="width: 100%;height: 100px;">
+                <div style="float: left;margin-right: 20px;" v-for="(item,index) in  clientOptions.series" :key="index">
                   {{item.name}}累计：{{item.total}}
                 </div>
-                <div v-for="(item,key) in saleser" :index="key">
+
+
+              </div>
+              <div>
+                <div v-for="(item,key) in saleser" :key="index">
                   {{key}}:{{item}}
                 </div>
               </div>
+
             </div>
 
         </div>
@@ -34,10 +39,10 @@
             <div style="width: 100%;height: 60%;">
               <solely-echarts :options="barOptions"></solely-echarts>
               <div>
-                <div v-for="(item,index) in  barOptions.series" :key="index">
+                <div  v-for="(item,index) in  barOptions.series" :key="index">
                   {{item.name}}累计：{{item.total}}
                 </div>
-                
+
               </div>
             </div>
 

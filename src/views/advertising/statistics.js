@@ -35,7 +35,7 @@ export default {
           label: '客户来源',
           application:['编辑','添加'],
           formatter:function(val,tests){
-            var testArray = ['58','百度','猪八戒','转介绍','其他','58财务']
+            var testArray = ['58','百度','猪八戒','转介绍','其他','58财务','搜狗']
             return testArray[val.origin-1];
           },
           componentName:'sls-select',
@@ -351,6 +351,9 @@ export default {
         }, {
           text: '58财务',
           value: 6
+        }, {
+          text: '搜狗',
+          value: 7
         }],
         stepOptions:[{
           text: '待联系',
@@ -433,7 +436,6 @@ export default {
      * 初始化
      */
     init () {
-
       this.initMainData();
     },
 

@@ -267,7 +267,7 @@ export default {
           label: '客户来源',
           application:['编辑','添加'],
           formatter:function(val,tests){
-            var testArray = ['58','百度','猪八戒','转介绍','其他','58财务']
+            var testArray = ['58','百度','猪八戒（快车）','转介绍','其他','58财务','猪八戒投标','猪八戒商机','猪八戒列表刷新','猪八戒自然流量','搜狗']
             return testArray[val.origin-1];
           },
           componentName:'sls-select',
@@ -295,6 +295,7 @@ export default {
             },
           }
         },
+
         {
 
           key: 'user_no',
@@ -486,10 +487,66 @@ export default {
           },
         },
         {
+          key: 'remark',
+          label: '搜索词',
+          application:['编辑','添加'],
+          componentName:'sls-input',
+          listType:'normal',
+          header_search:{
+            componentName:'sls-input',
+            style:'width:160px;margin-right:2px;',
+            placeholder:'请输入搜索词',
+            clearable:true,
+            defaultValue:'',
+            optionDataName:'',
+            changeFunc:function(val,self){
+              if(val){
+                self.searchItem.remark = ['like','%'+val+'%'];
+              }else{
+                delete self.searchItem.remark;
+              };
+              self.initMainData(true);
+            },
+          },
+        },
+        {
+          key: 'cause',
+          label: '失效原因',
+          application:['编辑'],
+          formatter:function(val,tests){
+            var testArray = ['客户失联','客户放弃','报价高','技术不符','区域不符','选择自身相关资源','其他原因选择其他公司']
+            return testArray[val.cause-1];
+          },
+          componentName:'sls-select',
+          optionsName:'causeOptions',
+          listType:'normal',
+          limit:10,
+          defaultProps: {
+            label: 'text',
+            value: 'value',
+          },
+          placeholder:'请选择失效原因',
+          width:60,
+          header_search:{
+            componentName:'sls-select',
+            optionsName:'causeOptions',
+            style:'width:160px;margin-right:2px;',
+            placeholder:'请选择失效原因',
+            changeFunc:function(val,self){
+              if(val){
+                self.searchItem.cause = val;
+              }else{
+                delete self.searchItem.cause;
+              };
+              self.initMainData(true);
+            },
+          }
+        },
+        {
           key: 'create_time',
           label: '创建时间',
           application:['编辑'],
-          listType:'normal',
+          listType:'',
           componentName:'sls-datetime',
           placeholder:'请选择创建时间',
           isHide:function(self){
@@ -805,7 +862,7 @@ export default {
           text: '百度',
           value: 2
         }, {
-          text: '猪八戒',
+          text: '猪八戒快车',
           value: 3
         }, {
           text: '转介绍',
@@ -816,6 +873,43 @@ export default {
         }, {
           text: '58财务',
           value: 6
+        }, {
+          text: '猪八戒投标',
+          value: 7
+        }, {
+          text: '猪八戒商机',
+          value: 8
+        }, {
+          text: '猪八戒列表刷新',
+          value: 9
+        }, {
+          text: '猪八戒自然流量',
+          value: 10
+        }, {
+          text: '搜狗',
+          value: 11
+        }],
+        causeOptions:[{
+          text: '客户失联',
+          value: 1
+        }, {
+          text: '客户放弃',
+          value: 2
+        }, {
+          text: '报价高',
+          value: 3
+        }, {
+          text: '技术不符',
+          value: 4
+        }, {
+          text: '区域不符',
+          value: 5
+        }, {
+          text: '选择自身相关资源',
+          value: 6
+        }, {
+          text: '其他原因选择其他公司',
+          value: 7
         }],
         stepOptions:[{
           text: '待联系',
@@ -1133,12 +1227,16 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
+        if(!self.click){
+          self.click = true;
+        };
       	var postData = self.$$cloneForm(self.btnNow.func.postData(self));
         if(!postData||postData.errMsg){
           self.$message({
             type: 'info',
             message: '操作失败'+','+postData.errMsg
           });
+          self.click = false;
           return;
         };
         console.log('postData',postData)
@@ -1153,9 +1251,11 @@ export default {
               self.initMainData();
             };
           };
+          self.click = false;
         };
       }).catch((e) => {
-        console.log(e)
+        console.log(e);
+        self.click = false;
         self.$message({
           type: 'info',
           message: '操作失败'

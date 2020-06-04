@@ -91,7 +91,7 @@ export default {
             trigger: 'axis'
           },
           legend: {
-            data: ['新增客户','58','百度','猪八戒快车','猪八戒投标','转介绍','其他','58财务']
+            data: ['新增客户','58','百度','猪八戒快车','转介绍','其他','58财务','猪八戒投标','猪八戒商机','猪八戒列表刷新','猪八戒自然流量','搜狗']
           },
           grid: {
             left: '3%',
@@ -136,12 +136,6 @@ export default {
             type: 'line',
             total:0,
             data: []
-          }
-          ,{
-            name: '猪八戒投标',
-            type: 'line',
-            total:0,
-            data: []
           },{
             name: '转介绍',
             type: 'line',
@@ -154,6 +148,31 @@ export default {
             data: []
           },{
             name: '58财务',
+            type: 'line',
+            total:0,
+            data: []
+          },{
+            name: '猪八戒投标',
+            type: 'line',
+            total:0,
+            data: []
+          },{
+            name: '猪八戒商机',
+            type: 'line',
+            total:0,
+            data: []
+          },{
+            name: '猪八戒列表刷新',
+            type: 'line',
+            total:0,
+            data: []
+          },{
+            name: '猪八戒自然流量',
+            type: 'line',
+            total:0,
+            data: []
+          },{
+            name: '搜狗',
             type: 'line',
             total:0,
             data: []
@@ -190,49 +209,52 @@ export default {
           clientOptions.series[5]['data'].push(0);
           clientOptions.series[6]['data'].push(0);
           clientOptions.series[7]['data'].push(0);
+          clientOptions.series[8]['data'].push(0);
+          clientOptions.series[9]['data'].push(0);
+          clientOptions.series[10]['data'].push(0);
+          clientOptions.series[11]['data'].push(0);
+
         };
 
         self.saleser = {
-          '蔺文娟':{
+          /* '蔺文娟':{
             totalClients:0,
-            'detail':[0,0,0,0,0,0,0,0],
+            'detail':[0,0,0,0,0,0,0,0,0,0,0],
           },
           '武点点':{
             totalClients:0,
-            'detail':[0,0,0,0,0,0,0,0],
+            'detail':[0,0,0,0,0,0,0,0,0,0,0],
           },
           '贾苏皖':{
             totalClients:0,
-            'detail':[0,0,0,0,0,0,0,0],
-          }
+            'detail':[0,0,0,0,0,0,0,0,0,0,0],
+          } */
         };
         for(var i=0;i<self.clientData.length;i++){
-          self.saleser[self.clientData[i].User.name]['totalClients']++;
+          if(self.saleser[self.clientData[i].User.name]){
+            self.saleser[self.clientData[i].User.name]['totalClients']++;
+          }else{
+            self.saleser[self.clientData[i].User.name] = {
+              totalClients:1,
+              'detail':[0,0,0,0,0,0,0,0,0,0,0,0],
+            };
+          };
+
           var dayIndex = clientOptions.xAxis.data.indexOf(self.clientData[i]['create_time'].substring(0,10));
           clientOptions.series[0]['data'][dayIndex]++;
           clientOptions.series[0]['total']++;
           self.saleser[self.clientData[i].User.name]['detail'][0]++;
-          if(self.clientData[i]['origin']>2){
-            if(self.clientData[i]['origin']==3&&self.clientData[i]['plan']!='投标'){
-              clientOptions.series[self.clientData[i]['origin']]['data'][dayIndex]++;
-              clientOptions.series[self.clientData[i]['origin']]['total']++;
-              self.saleser[self.clientData[i].User.name]['detail'][self.clientData[i]['origin']]++;
 
-            }else{
-              clientOptions.series[self.clientData[i]['origin']+1]['data'][dayIndex]++;
-              clientOptions.series[self.clientData[i]['origin']+1]['total']++;
-              self.saleser[self.clientData[i].User.name]['detail'][self.clientData[i]['origin']+1]++;
-            }
-          }else{
+          if(self.clientData[i]['origin']>0){
             clientOptions.series[self.clientData[i]['origin']]['data'][dayIndex]++;
             clientOptions.series[self.clientData[i]['origin']]['total']++;
             self.saleser[self.clientData[i].User.name]['detail'][self.clientData[i]['origin']]++;
-          }
+          };
 
         };
         self.clientOptions = clientOptions;
         self.initStatisticData()
-        console.log('self.clientOptions',self.clientOptions)
+        console.log('self.saleser',self.saleser)
 
       },
 
@@ -272,7 +294,7 @@ export default {
             }
           },
           legend: {
-            data: ['总花费','58','百度','猪八戒快车','猪八戒投标','58财务']
+            data: ['总花费','58','百度','猪八戒快车','猪八戒投标','58财务','搜狗']
           },
           grid: {
             left: '3%',
@@ -327,6 +349,11 @@ export default {
             type: 'line',
             total:0,
             data: []
+          }, {
+            name: '搜狗',
+            type: 'line',
+            total:0,
+            data: []
           }]
         }
         var res =  await self.$$api_statisticsGet({data: postData});
@@ -339,6 +366,7 @@ export default {
           barOptions.series[3]['data'].push(0);
           barOptions.series[4]['data'].push(0);
           barOptions.series[5]['data'].push(0);
+          barOptions.series[6]['data'].push(0);
         };
         for(var i=0;i<self.statisticData.length;i++){
 
@@ -352,8 +380,8 @@ export default {
               barOptions.series[4]['data'][dayIndex] += parseInt(self.statisticData[i]['cost']);
               barOptions.series[4]['total'] += parseInt(self.statisticData[i]['cost']);
             }else{
-              barOptions.series[5]['data'][dayIndex] += parseInt(self.statisticData[i]['cost']);
-              barOptions.series[5]['total'] += parseInt(self.statisticData[i]['cost']);
+              barOptions.series[self.statisticData[i]['origin']]['data'][dayIndex] += parseInt(self.statisticData[i]['cost']);
+              barOptions.series[self.statisticData[i]['origin']]['total'] += parseInt(self.statisticData[i]['cost']);
             };
         };
         self.barOptions = barOptions;

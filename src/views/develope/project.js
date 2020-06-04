@@ -965,11 +965,11 @@ export default {
           tableName: "UserInfo"
         },
         Payment:{
-          compute: {payment: ["sum", "money", {status: 1}]},
+          compute: {payment: ["sum", "money", {confirm: 0}]},
           condition: "=",
           key: "project_no",
           middleKey: "project_no",
-          searchItem: {status: 1},
+          searchItem: {confirm: 0},
           tableName: "Payment",
         },
         Client:{
