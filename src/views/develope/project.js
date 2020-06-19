@@ -32,7 +32,7 @@ export default {
           key: 'order',
           label: '排序',
           application:[],
-          formatter:function(val,tests){
+          formatter:function(val){
             var testArray = ['未完','完整']
             return testArray[val.order];
           },
@@ -59,8 +59,6 @@ export default {
             style:'width:160px;margin-right:2px;',
             placeholder:'默认更新时间desc',
             changeFunc:function(val,self){
-
-
               if(val==0){
                 self.searchItem.end_time = ['between',[(new Date()).getTime(),(new Date()).getTime()+86400000*4]];
                 self.order = {
@@ -154,7 +152,6 @@ export default {
           },
           width:120,
         },
-
         {
           key: 'is_prepared',
           label: '配置完整',
@@ -243,7 +240,6 @@ export default {
           application:['编辑','添加'],
           componentName:'sls-input',
           listType:'normal',
-
         },
         {
           key: 'pay_standard',
@@ -282,7 +278,6 @@ export default {
           listType:'',
           dialogStyle:'width:100%;',
         },
-
         {
           key: 'period',
           label: '项目工期',
@@ -364,7 +359,6 @@ export default {
               self.initMainData(true);
             },
             isHide:function(self){
-
               if(self.$store.getters.getUserinfo.primary_scope>=60||self.$store.getters.getUserinfo.behavior==3){
                 return false;
               }else{
@@ -414,7 +408,6 @@ export default {
               self.initMainData(true);
             },
             isHide:function(self){
-
               if(self.$store.getters.getUserinfo.primary_scope>=60||self.$store.getters.getUserinfo.behavior==3){
                 return false;
               }else{
@@ -423,7 +416,6 @@ export default {
             },
           }
         },
-
         {
           key: 'end_time',
           label: '开发截止时间',
@@ -476,11 +468,10 @@ export default {
           },
           width:200,
         },
-
         {
           key: 'create_time',
           label: '创建时间',
-          application:['编辑','添加'],
+          application:[],
           listType:'normal',
           componentName:'sls-datetime',
           placeholder:'请选择创建时间',
@@ -499,6 +490,24 @@ export default {
             },
           },
           width:170,
+        },
+        {
+          key: 'update_time',
+          label: '更新时间',
+          application:[],
+          listType:'normal',
+          componentName:'sls-datetime',
+          width:170,
+        },
+        {
+          key: 'update_user',
+          label: '更新人',
+          application:[],
+          listType:'normal',
+          componentName:'sls-input',
+          formatter:function(val){
+            return val.Uper&&val.Uper.name?val.Uper.name:'无';
+          },
         },
         {
           key: 'mainImg',
@@ -569,11 +578,9 @@ export default {
               return '删除选中'
             },
             func:{
-
               apiName:function(self){
                 return "api_projectUpdate"
               },
-
               postData:function(self){
                 var deleteArray = [];
                 for (var i = 0; i < self.selectionArray.length; i++) {
@@ -590,10 +597,8 @@ export default {
                 };
                 return postData;
               }
-
             },
           },
-
           {
             type:'info',
             icon:'edit',
@@ -608,14 +613,12 @@ export default {
               },
               formData:function(self){
                 var data = {
-
                   total_num:'',
                   valid_num:'',
                   invalid_num:'',
                   plan:'',
                   cell:'',
                   orgin:1
-
                 };
                 return data
               },
@@ -628,8 +631,8 @@ export default {
               }
             },
           },
-
       ],
+
       paginate: {
         count: 0,
         currentPage: 1,
@@ -753,9 +756,6 @@ export default {
         tableName:'UserInfo',
         searchItem:{
         },
-        fixSearchItem:{
-          status:1
-        },
         key:'user_no',
         middleKey:'user_no',
         condition:'in',
@@ -802,7 +802,7 @@ export default {
     /**
      * 初始化
      */
-    init () {
+    init() {
 
       this.initMainData();
       this.initUserData();
@@ -819,16 +819,13 @@ export default {
     },
 
 
-
-
-
     /**
      *
      */
-    async initUserData (isNew) {
+    async initUserData(isNew) {
 
       const self = this;
-      const postData  = {};
+      const postData = {};
 
       postData.token = self.$store.getters.getToken;
       if (self.searchItem) {
@@ -901,7 +898,7 @@ export default {
         },
       };
 
-      var res =  await self.$$api_userInfoGet({data: postData});
+      var res = await self.$$api_userInfoGet({data: postData});
       if(res.info.data[0]['end']['total']){
         self.header_str += '共有'+res.info.data[0]['end']['total']+'个项目开发截止预警;';
       };
@@ -923,7 +920,7 @@ export default {
     /**
      * 列表主函数
      */
-    async initMainData (isNew) {
+    async initMainData(isNew) {
 
       const self = this;
       self.table_arguments.loading = true;
@@ -979,6 +976,16 @@ export default {
           info: ["origin", "plan"],
           searchItem: {status: 1},
           tableName: "Client"
+        },
+        Uper:{
+          tableName:'UserInfo',
+          middleKey:'update_user',
+          key:'user_no',
+          condition:'=',
+          searchItem:{
+            status:1,
+          },
+          info:['name']
         }
       };
 

@@ -756,7 +756,7 @@ export default {
     /**
      * 初始化
      */
-    init () {
+    init() {
 
       this.initMainData();
       this.initUserData();
@@ -775,7 +775,7 @@ export default {
     /**
      *
      */
-    async initUserData (isNew) {
+    async initUserData(isNew) {
 
       const self = this;
       const postData  = {};
@@ -790,7 +790,7 @@ export default {
       if(JSON.stringify(self.getBefore) != "{}"){
         postData.getBefore = self.$$cloneForm(self.getBefore);
       };
-      var res =  await self.$$api_userInfoGet({data: postData});
+      var res = await self.$$api_userInfoGet({data: postData});
       self.optionData.userOptions = res.info.data;
       self.optionData.userOptions.push({
         name:'公共客户',
@@ -806,7 +806,7 @@ export default {
     /**
      * 列表主函数
      */
-    async initMainData (isNew) {
+    async initMainData(isNew) {
 
       const self = this;
       self.table_arguments.loading = true;
