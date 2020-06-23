@@ -40,7 +40,10 @@
       </solely-table>
     </div>
 
-    <el-dialog :title="btnNow.text&&btnNow.text(orginFormData)?btnNow.text(orginFormData):''" :visible.sync="dialog.dialogFormVisible">
+    <el-dialog :title="btnNow.text&&btnNow.text(orginFormData)?btnNow.text(orginFormData):''" 
+    :visible.sync="dialog.dialogFormVisible"
+    :close-on-click-modal = 'false'
+    >
       <div style="overflow:hidden;zoom:1;text-align: left;">
 
         <template v-for='(field,index) in fields'>

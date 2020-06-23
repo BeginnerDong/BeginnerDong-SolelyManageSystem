@@ -404,9 +404,6 @@ export default {
         tableName:'UserInfo',
         searchItem:{
         },
-        fixSearchItem:{
-          status:1
-        },
         key:'user_no',
         middleKey:'user_no',
         condition:'in',
