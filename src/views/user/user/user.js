@@ -19,7 +19,7 @@ export default {
           application:[],
           type:'input',
           listType:'normal',
-          placeholder:'请输入用户No',
+          placeholder:'请输入用户NO',
           header_search:true,
           header_search_type:'input',
           header_search_style:'width:160px;margin-right:2px;',
@@ -289,7 +289,6 @@ export default {
           size:'mini',
           position:'list',
           text:function(data){
-            console.log(JSON.stringify(data.data.info))
             return JSON.stringify(data.data.info)!= '[]'?'编辑信息':'添加信息'
           },
           func:{
@@ -297,7 +296,6 @@ export default {
               return JSON.stringify(data.info) != "[]" ?"api_userInfo_update":"api_userInfo_add"
             },
             formData:function(data,self,func){
-              console.log(data)
               if(self.btnName=='编辑信息'){
                 var data = data.info;
               }else if(self.btnName=='添加信息'){
@@ -321,7 +319,6 @@ export default {
                 };
                 postData.data.user_no=self.btnData.user_no;
               };
-
               return postData;
             }
           },
@@ -335,7 +332,6 @@ export default {
             return '编辑账号'
           },
           func:{
-
             apiName:function(data){
               return "api_user_update"
             },
@@ -390,67 +386,63 @@ export default {
           },
         },
         {
-            type:'danger',
-            icon:'delete',
-            size:'normal',
-            funcType:'submit',
-            position:'header',
-            text:function(data){
-              return '删除选中'
-            },
-            func:{
-
-              apiName:function(data){
-                return "api_user_update"
-              },
-
-              postData:function(data,self){
-                var postData = {
-                  searchItem:{
-                    id:['in',self.deleteArray],
-
-                  },
-                  data:{
-                    status:-1
-                  }
-                };
-                return postData;
-              }
-
-            },
+          type:'danger',
+          icon:'delete',
+          size:'normal',
+          funcType:'submit',
+          position:'header',
+          text:function(data){
+            return '删除选中'
           },
-          {
-            type:'info',
-            icon:'edit',
-            size:'normal',
-            position:'header',
-            text:function(data){
-              return '添加账号'
+          func:{
+            apiName:function(data){
+              return "api_user_update"
             },
-            func:{
-              apiName:function(data){
-                return "api_user_add"
-              },
+            postData:function(data,self){
+              var postData = {
+                searchItem:{
+                  id:['in',self.deleteArray],
 
-              formData:function(data,self,func){
+                },
+                data:{
+                  status:-1
+                }
+              };
+              return postData;
+            }
 
-                var data = {
-                  login_name:'',
-                  password:'',
-                };
-                return data
-              },
-
-              postData:function(data,self){
-                data.user_type = 0;
-                var postData={
-                  data:data
-                };
-                return postData;
-              }
-            },
           },
+        },
+        {
+          type:'info',
+          icon:'edit',
+          size:'normal',
+          position:'header',
+          text:function(data){
+            return '添加账号'
+          },
+          func:{
+            apiName:function(data){
+              return "api_user_add"
+            },
+            formData:function(data,self,func){
+              var data = {
+                login_name:'',
+                password:'',
+              };
+              return data
+            },
+            postData:function(data,self){
+              data.user_type = 0;
+              var postData={
+                data:data
+              };
+              return postData;
+            }
+          },
+        },
       ],
+
       DistriChild:{
         tableName:'Distribution',
         searchItem:{

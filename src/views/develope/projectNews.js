@@ -56,7 +56,6 @@ export default {
             placeholder:'请输入项目名称',
             suggest:true,
             querySearch:function(val,self){
-              console.log('querySearch')
               if(val){
                 var postData = {
                   searchItem:{
@@ -70,8 +69,6 @@ export default {
                 delete self.searchItem.project_no;
                 self.initMainData(true);
               }
-
-
             },
             changeFunc:function(val,self){
               if(val){
@@ -89,7 +86,7 @@ export default {
           application:[],
           componentName:'sls-input',
           listType:'',
-        
+
           header_search:{
             componentName:'sls-input',
             placeholder:'请输入project_no',
@@ -832,8 +829,6 @@ export default {
         postData.searchItem.estimated_time = ['neq',0];
       };
 
-
-
       if(JSON.stringify(self.getBefore) != "{}"){
         postData.getBefore = self.$$cloneForm(self.getBefore);
       };
@@ -873,7 +868,7 @@ export default {
     },
 
 
-    async initProjectData (postData) {
+    async initProjectData(postData) {
 
       const self = this;
       postData.token = self.$store.getters.getToken;
