@@ -16,7 +16,7 @@
     "echarts": "^4.6.0",
     "quill": "^1.3.7",
     "tinymce": "^5.2.0",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "understore": "^2.1.6",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.5",
